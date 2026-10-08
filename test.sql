@@ -177,20 +177,133 @@ GROUP BY o.OrderID;
 
 --31
 
+-------
+
+
+--32
+
+SELECT CategoryID, Max(UnitPrice) AS EnYuksekFiyat
+FROM Products
+GROUP BY CategoryID;
+
+
+--33
+
+SELECT OrderDate, Freight
+FROM Orders
+WHERE YEAR(OrderDate) = 1997
+ORDER BY OrderDate;
+
+--34
+
+SELECT CustomerID, OrderDate
+FROM Orders
+ORDER BY CustomerID, OrderDate;
+
+
+--35
+
+SELECT CustomerID, OrderID, OrderDate
+FROM Orders
+ORDER BY CustomerID, OrderDate;
+
+--36
+
+SELECT ProductName, UnitPrice
+FROM Products
+ORDER BY UnitPrice DESC;
+
+--37 
+
+SELECT YEAR(o.OrderDate) AS Yil, SUM(od.UnitPrice * od.Quantity) AS YillikCiro
+FROM Orders o
+JOIN [Order Details] od ON o.OrderID = od.OrderID
+GROUP BY YEAR(o.OrderDate);
+
+--38
+
+SELECT p.CategoryID, p.ProductName, SUM(od.UnitPrice * od.Quantity) AS  UrunCirosu
+FROM Products p
+JOIN [Order Details] od ON p.ProductID = od.ProductID
+GROUP BY p.CategoryID, p.ProductName;
+
+--39 
+
+SELECT o.OrderID, sum(od.UnitPrice * od.Quantity) AS SepetTutari
+FROM Orders o 
+JOIN [Order Details] od ON o.OrderID = od.OrderID
+GROUP BY o.OrderID;
+
+--40
+
+SELECT DISTINCT o.CustomerID, od.ProductID
+FROM Orders o
+JOIN [Order Details] od ON o.OrderID = od.OrderID;
+
+--41 
+SELECT EmployeeID, FirstName, LastName, RepostsTo
+FROM Employees;
+
+--42 
+
+----
+
+--43
+
+SELECT CustomerID, OrderID
+FROM Orders;
+
+--44
+
+
+SELECT od1.ProductID, od2.ProductID, COUNT(*) AS BirlikteSatisSayisi
+FROM [Order Details] od1
+JOIN [Order Details] od2 ON od1.OrderID = od2.OrderID AND od1.ProductID < od2.ProductID
+GROUP BY od1.ProductID, od2.ProductID;
 
 
 
+--45
+
+SELECT p.CategoryID, o.ShipCountry, SUM(od.UnitPrice * od.Quantity) AS ToplamCiro
+FROM Orders o
+JOIN [Order Details] od ON o.OrderID = od.OrderID
+JOIN Products p ON od.ProductID = p.ProductID
+GROUP BY p.CategoryID, o.ShipCountry;
+
+
+--46
+
+SELECT CustomerID, MAX(OrderDate) AS SonSiparis, COUNT(OrderID) AS SiparisSayisi
+FROM Orders
+GROUP BY CustomerID;
+
+--47
+
+SELECT CustomerID, OrderDate
+FROM Orders
+ORDER BY CustomerID, OrderDate;
 
 
 
+--48 
 
+SELECT YEAR(OrderDate) AS Yil, MONTH(OrderDate) AS Ay, SUM(Freight) AS AylikToplam
+FROM Orders
+GROUP BY YEAR(OrderDate), MONTH(OrderDate);
 
+--49
 
+SELECT DISTINCT CustomerID 
+FROM Orders 
+WHERE YEAR(OrderDate) = 1997 
+  AND CustomerID NOT IN (SELECT CustomerID FROM Orders WHERE YEAR(OrderDate) = 1998);
 
+--50 
 
-
-
-
+SELECT CategoryID, AVG(UnitPrice) AS OrtalamaFiyat
+FROM Products
+GROUP BY CategoryID;
 
 
 
